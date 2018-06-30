@@ -3,6 +3,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <zconf.h>
+#include<stdio.h>
+#include<string.h>
 
 int main() {
     int sock = socket(AF_INET, SOCK_DGRAM, 0);//IPV4  SOCK_DGRAM 数据报套接字（UDP协议）
@@ -14,8 +16,8 @@ int main() {
 
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port= 8888;
-    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    server_addr.sin_port= 3000;
+    server_addr.sin_addr.s_addr = inet_addr("192.168.1.2");
 
     socklen_t len = sizeof(server_addr);
     char buf[1024];
@@ -27,15 +29,16 @@ int main() {
             perror("send:");
             exit(3);
         }
-        struct sockaddr_in tmp;
-        len = sizeof(tmp);
-        int ret = recvfrom(sock, buf, sizeof(buf)-1, 0, (struct sockaddr*)&tmp ,&len);
-        if(ret > 0)
-        {
-            buf[ret] = 0;
-            printf("server echo#:%s\n",buf);
-            break;
-        }
+        break;
+        // struct sockaddr_in tmp;
+        // len = sizeof(tmp);
+        // int ret = recvfrom(sock, buf, sizeof(buf)-1, 0, (struct sockaddr*)&tmp ,&len);
+        // if(ret > 0)
+        // {
+        //     buf[ret] = 0;
+        //     printf("server echo#:%s\n",buf);
+        //     break;
+        // }
     }
     close(sock);
     return 0;

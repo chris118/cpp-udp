@@ -1,12 +1,6 @@
 #include <iostream>
-#include<stdio.h>
-#include<stdlib.h>
-#include<sys/types.h>
 #include<sys/socket.h>
-#include<string.h>
 #include<arpa/inet.h>
-#include<netinet/in.h>
-#include<unistd.h>
 
 int main() {
     //创建套接字
@@ -19,8 +13,10 @@ int main() {
     //将套接字与ip地址和端口号进行绑定
     struct sockaddr_in local;
     local.sin_family = AF_INET;
-    local.sin_port = 8888;
-    local.sin_addr.s_addr = inet_addr("127.0.0.1");
+    local.sin_port = 3000;
+    // local.sin_addr.s_addr = inet_addr("192.168.1.2");
+    local.sin_addr.s_addr = htonl(INADDR_ANY);
+
     if(bind(sock,(struct sockaddr*)&local,sizeof(local))<0)
     {
         perror("bind");
@@ -45,13 +41,13 @@ int main() {
             buf[r] = 0;
             printf("[%s : %d]#  %s\n",inet_ntoa(client.sin_addr), ntohs(client.sin_port),buf);
 
-            //回送数据
-            if(sendto(sock,msg,strlen(msg),0,(struct sockaddr*)&client,len)<0)
-            {
-                perror("sendto");
-                exit(4);
-            }
-            break;
+            // //回送数据
+            // if(sendto(sock,msg,strlen(msg),0,(struct sockaddr*)&client,len)<0)
+            // {
+            //     perror("sendto");
+            //     exit(4);
+            // }
+            // break;
         }
     }
     return 0;
