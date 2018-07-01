@@ -16,7 +16,7 @@ int main() {
 
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port= 3000;
+    server_addr.sin_port = htons(3000);  //端口号，需要网络序转换
     server_addr.sin_addr.s_addr = inet_addr("192.168.1.2");
 
     socklen_t len = sizeof(server_addr);

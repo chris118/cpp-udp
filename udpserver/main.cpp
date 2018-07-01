@@ -13,8 +13,7 @@ int main() {
     //将套接字与ip地址和端口号进行绑定
     struct sockaddr_in local;
     local.sin_family = AF_INET;
-    local.sin_port = 3000;
-    // local.sin_addr.s_addr = inet_addr("192.168.1.2");
+    local.sin_port = htons(3000);  //端口号，需要网络序转换
     local.sin_addr.s_addr = htonl(INADDR_ANY);
 
     if(bind(sock,(struct sockaddr*)&local,sizeof(local))<0)
